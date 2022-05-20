@@ -22,33 +22,33 @@ class Login extends React.Component {
     };
     return (
       <div data-testid="page-login" className="login-main-page">
-        {isLoading && <Loading />}
-        <div>
-          <div className="login-logo-container">
-            <img className="login-logo" src={ Logo } alt="Trybetunes logo" />
-          </div>
-          <div className="login-content">
-            <form>
-              <input
-                data-testid="login-name-input"
-                name="loginNameInput"
-                type="text"
-                className="login-input"
-                value={ loginNameInput }
-                onChange={ onInputChange }
-              />
-              <button
-                data-testid="login-submit-button"
-                type="submit"
-                className="login-button"
-                disabled={ isLoginButtonDisabled }
-                onClick={ handleSubmit }
-              >
-                Entrar
-              </button>
-            </form>
-          </div>
-        </div>
+        {!isLoading ? (
+          <div>
+            <div className="login-logo-container">
+              <img className="login-logo" src={ Logo } alt="Trybetunes logo" />
+            </div>
+            <div className="login-content">
+              <form>
+                <input
+                  data-testid="login-name-input"
+                  name="loginNameInput"
+                  type="text"
+                  className="login-input"
+                  value={ loginNameInput }
+                  onChange={ onInputChange }
+                />
+                <button
+                  data-testid="login-submit-button"
+                  type="submit"
+                  className="login-button"
+                  disabled={ isLoginButtonDisabled }
+                  onClick={ handleSubmit }
+                >
+                  Entrar
+                </button>
+              </form>
+            </div>
+          </div>) : <Loading />}
       </div>
     );
   }
@@ -58,7 +58,11 @@ Login.propTypes = {
   loginNameInput: propTypes.string.isRequired,
   isLoginButtonDisabled: propTypes.bool.isRequired,
   onInputChange: propTypes.func.isRequired,
-  history: propTypes.shape(propTypes.any).isRequired,
+  history: propTypes.shape(propTypes.any),
+};
+
+Login.defaultProps = {
+  history: {},
 };
 
 export default Login;

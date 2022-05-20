@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-
 import './App.css';
 import Album from './pages/Album';
 import Favorites from './pages/Favorites';
@@ -33,9 +32,9 @@ class App extends React.Component {
         <Route
           exact
           path="/"
-          render={ (routerProps) => (
+          render={ ({ history }) => (
             <Login
-              { ...routerProps }
+              history={ history }
               loginNameInput={ loginNameInput }
               isLoginButtonDisabled={ isLoginButtonDisabled() }
               onInputChange={ this.handleChange }
