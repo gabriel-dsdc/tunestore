@@ -41,6 +41,7 @@
   border: 1px solid gray;
   border-radius: 2px;
   color: white;
+  cursor: pointer;
   font-size: 20px;
   font-weight: 800;
   margin-top: 20px;
@@ -49,5 +50,6 @@
 }
 
 .login-button:disabled {
-  background-color: rgb(59 105 226);
+  background-color: gray;
+  cursor: default;
 }

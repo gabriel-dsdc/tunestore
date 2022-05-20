@@ -11,10 +11,37 @@ import ProfileEdit from './pages/ProfileEdit';
 import Search from './pages/Search';
 
 class App extends React.Component {
+  state = {
+    loginNameInput: '',
+  }
+
+  handleChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
+  };
+
   render() {
+    const { loginNameInput } = this.state;
+    const isLoginButtonDisabled = () => {
+      const minInputLength = 3;
+      if (loginNameInput.length >= minInputLength) {
+        return false;
+      }
+      return true;
+    };
     return (
       <Switch>
-        <Route exact path="/" component={ Login } />
+        <Route
+          exact
+          path="/"
+          render={ (routerProps) => (
+            <Login
+              { ...routerProps }
+              loginNameInput={ loginNameInput }
+              isLoginButtonDisabled={ isLoginButtonDisabled() }
+              onInputChange={ this.handleChange }
+            />
+          ) }
+        />
         <Route path="/search" component={ Search } />
         <Route path="/album/:id" component={ Album } />
         <Route path="/favorites" component={ Favorites } />
