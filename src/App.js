@@ -18,15 +18,17 @@ class App extends React.Component {
     this.setState({ [name]: value });
   };
 
+  isLoginButtonDisabled = () => {
+    const { loginNameInput } = this.state;
+    const minInputLength = 3;
+    if (loginNameInput.length >= minInputLength) {
+      return false;
+    }
+    return true;
+  };
+
   render() {
     const { loginNameInput } = this.state;
-    const isLoginButtonDisabled = () => {
-      const minInputLength = 3;
-      if (loginNameInput.length >= minInputLength) {
-        return false;
-      }
-      return true;
-    };
     return (
       <Switch>
         <Route
@@ -36,12 +38,16 @@ class App extends React.Component {
             <Login
               history={ history }
               loginNameInput={ loginNameInput }
-              isLoginButtonDisabled={ isLoginButtonDisabled() }
+              isLoginButtonDisabled={ this.isLoginButtonDisabled() }
               onInputChange={ this.handleChange }
             />
           ) }
         />
-        <Route path="/search" component={ Search } />
+        <Route
+          path="/search"
+          render={ ({ history }) => (
+            <Search history={ history } />) }
+        />
         <Route path="/album/:id" component={ Album } />
         <Route path="/favorites" component={ Favorites } />
         <Route exact path="/profile" component={ Profile } />

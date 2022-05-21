@@ -55,6 +55,15 @@
   cursor: default;
 }
 
+/* Loading */
+.loading {
+  align-items: center;
+  color: #036b52;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 /* Header */
 .header-content {
   align-items: center;
@@ -63,7 +72,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
-
 
 .header-links {
   display: flex;
@@ -77,7 +85,7 @@
   margin-left: 40px;
 }
 
-header a {
+.header-links a {
   align-content: center;
   background-color: rgb(240, 242, 245);
   border-left: 2px solid white;
@@ -91,7 +99,7 @@ header a {
   text-decoration: none;
 }
 
-header a:hover {
+.header-links a:hover {
   background-color: rgba(2, 48, 49, 1);
   color: white;
 }
@@ -101,7 +109,6 @@ header .active {
   border: none;
   color: rgb(240, 242, 245);
 }
-
 
 .logo-and-name-content {
   align-items: center;
@@ -119,7 +126,6 @@ header .active {
   margin-right: 40px;
   padding: 0 8px;
 }
-
 
 .user-image {
   border-radius: 50px;
@@ -187,7 +193,7 @@ header .active {
   cursor: default;
 }
 
-.albuns-content {
+.albums-content {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
@@ -220,7 +226,7 @@ header .active {
   text-align: center;
 }
 
-.album-colletion-name {
+.album-collection-name {
   font-weight: 700;
 }
 

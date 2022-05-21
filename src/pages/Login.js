@@ -9,17 +9,19 @@ class Login extends React.Component {
     isLoading: false,
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { loginNameInput, history } = this.props;
+    this.setState({ isLoading: true }, () => {
+      createUser({ name: loginNameInput }).then(() => {
+        history.push('/search');
+      });
+    });
+  };
+
   render() {
     const { isLoading } = this.state;
-    const { loginNameInput, isLoginButtonDisabled, onInputChange, history } = this.props;
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      this.setState({ isLoading: true }, () => {
-        createUser({ name: loginNameInput }).then(() => {
-          history.push('/search');
-        });
-      });
-    };
+    const { loginNameInput, isLoginButtonDisabled, onInputChange } = this.props;
     return (
       <div data-testid="page-login" className="login-main-page">
         {!isLoading ? (
@@ -42,13 +44,13 @@ class Login extends React.Component {
                   type="submit"
                   className="login-button"
                   disabled={ isLoginButtonDisabled }
-                  onClick={ handleSubmit }
+                  onClick={ this.handleSubmit }
                 >
                   Entrar
                 </button>
               </form>
             </div>
-          </div>) : <Loading />}
+          </div>) : <Loading TagName="h1" />}
       </div>
     );
   }

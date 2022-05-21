@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import propTypes from 'prop-types';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
 import Logo from '../assets/logo_mini.png';
@@ -18,26 +19,55 @@ class Header extends React.Component {
 
   render() {
     const { username, isLoading } = this.state;
+    const { currentLink } = this.props;
     return (
       <header data-testid="header-component">
         <div className="header-content">
-          <div className="header-logo">
-            <img src={ Logo } alt="Logo da TrybeTunes" />
-          </div>
+          <Link to="/">
+            <div className="header-logo">
+              <img src={ Logo } alt="Logo da TrybeTunes" />
+            </div>
+          </Link>
           <div className="user-container">
             <img src={ Avatar } alt="Imagem de perfil" />
-            <h1 data-testid="header-user-name" className="user-name-paragraph">
+            <b data-testid="header-user-name" className="user-name-paragraph">
               {isLoading ? <Loading /> : username}
-            </h1>
+            </b>
           </div>
           <div className="header-links">
-            <Link data-testid="link-to-search" to="/search">Pesquisa</Link>
-            <Link data-testid="link-to-favorites" to="/favorites">Favoritos</Link>
-            <Link data-testid="link-to-profile" to="/profile">Perfil</Link>
+            <Link
+              data-testid="link-to-search"
+              to="/search"
+              className={ currentLink === 'search' ? 'active' : '' }
+            >
+              Pesquisa
+            </Link>
+            <Link
+              data-testid="link-to-favorites"
+              to="/favorites"
+              className={ currentLink === 'favorites' ? 'active' : '' }
+            >
+              Favoritos
+            </Link>
+            <Link
+              data-testid="link-to-profile"
+              to="/profile"
+              className={ currentLink === 'profile' ? 'active' : '' }
+            >
+              Perfil
+            </Link>
           </div>
         </div>
       </header>);
   }
 }
+
+Header.propTypes = {
+  currentLink: propTypes.string,
+};
+
+Header.defaultProps = {
+  currentLink: 'profile',
+};
 
 export default Header;
