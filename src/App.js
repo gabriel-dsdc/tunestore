@@ -48,7 +48,10 @@ class App extends React.Component {
           render={ ({ history }) => (
             <Search history={ history } />) }
         />
-        <Route path="/album/:id" component={ Album } />
+        <Route
+          path="/album/:id"
+          render={ (routerProps) => (<Album { ...routerProps } />) }
+        />
         <Route path="/favorites" component={ Favorites } />
         <Route exact path="/profile" component={ Profile } />
         <Route path="/profile/edit" component={ ProfileEdit } />

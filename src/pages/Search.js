@@ -37,10 +37,14 @@ class Search extends React.Component {
     this.setState({ [name]: value }, this.isSearchDisabled);
   }
 
+  goToAlbum = ({ target: { dataset: { collectionId } } }) => {
+    const { history } = this.props;
+    history.push(`/album/${collectionId}`);
+  }
+
   render() {
     const { searchInput, isSearchButtonDisabled,
       isLoading, currentSearch, albums } = this.state;
-    const { history } = this.props;
     return (
       <div data-testid="page-search">
         <Header currentLink="search" />
@@ -88,7 +92,8 @@ class Search extends React.Component {
                             data-testid={ `link-to-album-${collectionId}` }
                             type="submit"
                             className="album-button"
-                            onClick={ () => { history.push(`/album/${collectionId}`); } }
+                            data-collection-id={ collectionId }
+                            onClick={ this.goToAlbum }
                           >
                             Ir para o álbum
                           </button>
@@ -106,11 +111,9 @@ class Search extends React.Component {
 }
 
 Search.propTypes = {
-  history: propTypes.shape(propTypes.any),
-};
-
-Search.defaultProps = {
-  history: {},
+  history: propTypes.shape({
+    push: propTypes.func,
+  }).isRequired,
 };
 
 export default Search;

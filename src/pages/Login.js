@@ -36,6 +36,7 @@ class Login extends React.Component {
                   name="loginNameInput"
                   type="text"
                   className="login-input"
+                  placeholder="Nome"
                   value={ loginNameInput }
                   onChange={ onInputChange }
                 />
@@ -60,11 +61,9 @@ Login.propTypes = {
   loginNameInput: propTypes.string.isRequired,
   isLoginButtonDisabled: propTypes.bool.isRequired,
   onInputChange: propTypes.func.isRequired,
-  history: propTypes.shape(propTypes.any),
-};
-
-Login.defaultProps = {
-  history: {},
+  history: propTypes.shape({
+    push: propTypes.func,
+  }).isRequired,
 };
 
 export default Login;
