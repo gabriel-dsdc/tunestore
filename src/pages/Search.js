@@ -77,9 +77,7 @@ class Search extends React.Component {
               {albums.length !== 0 ? (
                 <>
                   <p>
-                    Resultado de álbuns de:
-                    {' '}
-                    {currentSearch}
+                    {`Resultado de álbuns de: ${currentSearch}`}
                   </p>
                   <div className="album-card-content">
                     {albums.map(
