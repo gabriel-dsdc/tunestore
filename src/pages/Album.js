@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   state = {
@@ -12,10 +13,21 @@ class Album extends React.Component {
   }
 
   componentDidMount() {
-    const { match: { params: { id } } } = this.props;
+    const { match: { params: { id } }, onFavoriteChange } = this.props;
     getMusics(id).then((response) => (
       this.setState({ album: response, isLoading: false })
     ));
+
+    this.setState({ isLoading: true }, () => {
+      getFavoriteSongs().then((response) => {
+        this.setState({ isLoading: false }, () => { onFavoriteChange(response); });
+      });
+    });
+  }
+
+  checkFavorites = (track) => {
+    const { favoriteSongs } = this.props;
+    return favoriteSongs.some((song) => song.trackId === track.trackId);
   }
 
   render() {
@@ -41,7 +53,10 @@ class Album extends React.Component {
             <div className="music-list">
               {trackList.map((track) => (
                 <div key={ track.trackId } className="music-card-content">
-                  <MusicCard music={ track } />
+                  <MusicCard
+                    music={ track }
+                    isFavorite={ this.checkFavorites(track) }
+                  />
                 </div>
               ))}
             </div>
@@ -58,6 +73,8 @@ Album.propTypes = {
       id: propTypes.string,
     }),
   }).isRequired,
+  onFavoriteChange: propTypes.func.isRequired,
+  favoriteSongs: propTypes.arrayOf(propTypes.object).isRequired,
 };
 
 export default Album;

@@ -12,11 +12,16 @@ import Search from './pages/Search';
 class App extends React.Component {
   state = {
     loginNameInput: '',
+    favoriteSongs: [{}],
   }
 
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value });
   };
+
+  handleFavorite = (response) => {
+    this.setState({ favoriteSongs: response });
+  }
 
   isLoginButtonDisabled = () => {
     const { loginNameInput } = this.state;
@@ -28,7 +33,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { loginNameInput } = this.state;
+    const { loginNameInput, favoriteSongs } = this.state;
     return (
       <Switch>
         <Route
@@ -50,7 +55,11 @@ class App extends React.Component {
         />
         <Route
           path="/album/:id"
-          render={ (routerProps) => (<Album { ...routerProps } />) }
+          render={ (routerProps) => (<Album
+            { ...routerProps }
+            favoriteSongs={ favoriteSongs }
+            onFavoriteChange={ this.handleFavorite }
+          />) }
         />
         <Route path="/favorites" component={ Favorites } />
         <Route exact path="/profile" component={ Profile } />
