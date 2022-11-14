@@ -27,17 +27,16 @@ class Album extends React.Component {
     this.setState({ favoriteSongs });
   }
 
-  checkFavorites = (trackId) => {
-    const { favoriteSongs } = this.state;
-    return favoriteSongs.some((song) => song.trackId === trackId);
+  setIsLoading = (bool) => {
+    this.setState({ isLoading: bool });
   }
 
   render() {
     const { album: [{ artworkUrl100, artistName, collectionName },
-      ...trackList], isLoading } = this.state;
+      ...trackList], favoriteSongs, isLoading } = this.state;
     return (
       <div data-testid="page-album">
-        <Header />
+        <Header currentLink="search" />
         {!isLoading ? (
           <div className="musics-page-content">
             <div className="album-title-container">
@@ -57,8 +56,9 @@ class Album extends React.Component {
                 <div key={ track.trackId } className="music-card-content">
                   <MusicCard
                     music={ track }
-                    isFavorite={ this.checkFavorites }
+                    favoriteSongs={ favoriteSongs }
                     onFavoriteChange={ this.handleFavorite }
+                    setIsLoading={ this.setIsLoading }
                   />
                 </div>
               ))}
