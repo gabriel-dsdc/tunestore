@@ -39,7 +39,7 @@ class App extends React.Component {
               history={ history }
               loginNameInput={ loginNameInput }
               isLoginButtonDisabled={ this.isLoginButtonDisabled() }
-              onInputChange={ this.handleChange }
+              handleChange={ this.handleChange }
             />
           ) }
         />

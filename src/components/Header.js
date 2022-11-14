@@ -1,10 +1,10 @@
+import propTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import propTypes from 'prop-types';
+import Avatar from '../assets/avatar.png';
+import Logo from '../assets/logo_mini.png';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
-import Logo from '../assets/logo_mini.png';
-import Avatar from '../assets/avatar.png';
 
 class Header extends React.Component {
   state = {
@@ -25,7 +25,7 @@ class Header extends React.Component {
         <div className="header-content">
           <Link to="/">
             <div className="header-logo">
-              <img src={ Logo } alt="Logo da TrybeTunes" />
+              <img src={ Logo } alt="Logo" />
             </div>
           </Link>
           <div className="user-container">

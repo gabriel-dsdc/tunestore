@@ -1,8 +1,8 @@
-import React from 'react';
 import propTypes from 'prop-types';
+import React from 'react';
 import Logo from '../assets/logo.png';
-import { createUser } from '../services/userAPI';
 import Loading from '../components/Loading';
+import { createUser } from '../services/userAPI';
 
 class Login extends React.Component {
   state = {
@@ -21,13 +21,13 @@ class Login extends React.Component {
 
   render() {
     const { isLoading } = this.state;
-    const { loginNameInput, isLoginButtonDisabled, onInputChange } = this.props;
+    const { loginNameInput, isLoginButtonDisabled, handleChange } = this.props;
     return (
       <div data-testid="page-login" className="login-main-page">
         {!isLoading ? (
           <div>
             <div className="login-logo-container">
-              <img className="login-logo" src={ Logo } alt="Trybetunes logo" />
+              <img className="login-logo" src={ Logo } alt="logo" />
             </div>
             <div className="login-content">
               <form>
@@ -38,7 +38,7 @@ class Login extends React.Component {
                   className="login-input"
                   placeholder="Nome"
                   value={ loginNameInput }
-                  onChange={ onInputChange }
+                  onChange={ handleChange }
                 />
                 <button
                   data-testid="login-submit-button"
@@ -60,7 +60,7 @@ class Login extends React.Component {
 Login.propTypes = {
   loginNameInput: propTypes.string.isRequired,
   isLoginButtonDisabled: propTypes.bool.isRequired,
-  onInputChange: propTypes.func.isRequired,
+  handleChange: propTypes.func.isRequired,
   history: propTypes.shape({
     push: propTypes.func,
   }).isRequired,
