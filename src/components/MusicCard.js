@@ -1,6 +1,6 @@
-import React from 'react';
 import propTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import React from 'react';
+import { addSong, removeSong } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends React.Component {
@@ -9,18 +9,42 @@ class MusicCard extends React.Component {
     isChecked: false,
   }
 
-  addToFavorites = () => {
-    const { music } = this.props;
+  componentDidMount() {
+    const { music, isFavorite } = this.props;
+    this.setState({ isChecked: isFavorite(music.trackId) });
+  }
+
+  addToFavorites = async () => {
+    const { music, onFavoriteChange } = this.props;
     this.setState({ isLoading: true }, () => {
-      addSong(music).then(() => {
+      addSong(music).then(async () => {
+        await onFavoriteChange();
         this.setState({ isLoading: false, isChecked: true });
       });
     });
   }
 
+  removeFromFavorites = async () => {
+    const { music, onFavoriteChange } = this.props;
+    this.setState({ isLoading: true }, () => {
+      removeSong(music).then(async () => {
+        await onFavoriteChange();
+        this.setState({ isLoading: false, isChecked: false });
+      });
+    });
+  }
+
+  handleFavorite = async (e) => {
+    if (e.target.checked === false) {
+      await this.removeFromFavorites();
+    } else {
+      await this.addToFavorites();
+    }
+  }
+
   render() {
     const { isLoading, isChecked } = this.state;
-    const { music: { trackId, trackName, previewUrl }, isFavorite } = this.props;
+    const { music: { trackId, trackName, previewUrl } } = this.props;
     return (
       <div className="music-card">
         { !isLoading ? (
@@ -40,8 +64,8 @@ class MusicCard extends React.Component {
                   data-testid={ `checkbox-music-${trackId}` }
                   id={ `favorite-${trackId}` }
                   type="checkbox"
-                  checked={ isFavorite || isChecked }
-                  onChange={ this.addToFavorites }
+                  checked={ isChecked }
+                  onChange={ (e) => this.handleFavorite(e) }
                 />
                 Favorita
               </label>
@@ -58,7 +82,8 @@ MusicCard.propTypes = {
     trackName: propTypes.string,
     previewUrl: propTypes.string,
   }).isRequired,
-  isFavorite: propTypes.bool.isRequired,
+  isFavorite: propTypes.func.isRequired,
+  onFavoriteChange: propTypes.func.isRequired,
 };
 
 export default MusicCard;

@@ -1,33 +1,35 @@
-import React from 'react';
 import propTypes from 'prop-types';
+import React from 'react';
 import Header from '../components/Header';
-import getMusics from '../services/musicsAPI';
-import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
+import MusicCard from '../components/MusicCard';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+import getMusics from '../services/musicsAPI';
 
 class Album extends React.Component {
   state = {
     album: [{}],
+    favoriteSongs: [{}],
     isLoading: true,
   }
 
-  componentDidMount() {
-    const { match: { params: { id } }, onFavoriteChange } = this.props;
-    getMusics(id).then((response) => (
-      this.setState({ album: response, isLoading: false })
-    ));
-
-    this.setState({ isLoading: true }, () => {
-      getFavoriteSongs().then((response) => {
-        this.setState({ isLoading: false }, () => { onFavoriteChange(response); });
-      });
+  async componentDidMount() {
+    const { match: { params: { id } } } = this.props;
+    this.setState({ isLoading: true }, async () => {
+      await this.handleFavorite();
+      const musicsList = await getMusics(id);
+      this.setState({ album: musicsList, isLoading: false });
     });
   }
 
-  checkFavorites = (track) => {
-    const { favoriteSongs } = this.props;
-    return favoriteSongs.some((song) => song.trackId === track.trackId);
+  handleFavorite = async () => {
+    const favoriteSongs = await getFavoriteSongs();
+    this.setState({ favoriteSongs });
+  }
+
+  checkFavorites = (trackId) => {
+    const { favoriteSongs } = this.state;
+    return favoriteSongs.some((song) => song.trackId === trackId);
   }
 
   render() {
@@ -55,7 +57,8 @@ class Album extends React.Component {
                 <div key={ track.trackId } className="music-card-content">
                   <MusicCard
                     music={ track }
-                    isFavorite={ this.checkFavorites(track) }
+                    isFavorite={ this.checkFavorites }
+                    onFavoriteChange={ this.handleFavorite }
                   />
                 </div>
               ))}
@@ -73,8 +76,6 @@ Album.propTypes = {
       id: propTypes.string,
     }),
   }).isRequired,
-  onFavoriteChange: propTypes.func.isRequired,
-  favoriteSongs: propTypes.arrayOf(propTypes.object).isRequired,
 };
 
 export default Album;
