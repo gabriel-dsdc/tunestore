@@ -2,23 +2,24 @@ import propTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '../assets/avatar.png';
-import Logo from '../assets/logo_mini.png';
+import Logo from '../assets/logo_white.png';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
 
 class Header extends React.Component {
   state = {
     username: '',
+    image: '',
     isLoading: true,
   }
 
   componentDidMount() {
-    getUser().then(({ name }) => (
-      this.setState({ username: name }, this.setState({ isLoading: false }))));
+    getUser().then(({ name, image }) => (
+      this.setState({ username: name, image }, this.setState({ isLoading: false }))));
   }
 
   render() {
-    const { username, isLoading } = this.state;
+    const { username, image, isLoading } = this.state;
     const { currentLink } = this.props;
     return (
       <header data-testid="header-component">
@@ -29,7 +30,7 @@ class Header extends React.Component {
             </div>
           </Link>
           <div className="user-container">
-            <img src={ Avatar } alt="Imagem de perfil" />
+            <img className="user-image" src={ image || Avatar } alt="Imagem de perfil" />
             <b data-testid="header-user-name" className="user-name-paragraph">
               {isLoading ? <Loading /> : username}
             </b>

@@ -25,25 +25,26 @@ class Profile extends React.Component {
         { !isLoading ? (
           <div style={ { display: 'flex', justifyContent: 'center' } }>
             <div style={ { marginTop: '70px' } }>
-              <div>
+              <div className="profile-container">
                 <img
+                  className="profile-image"
                   data-testid="profile-image"
                   src={ image || Avatar }
                   alt={ `${name}profile` }
                 />
                 <Link to="/profile/edit">
-                  <button type="button">Editar perfil</button>
+                  <button className="profile-button" type="button">Editar perfil</button>
                 </Link>
               </div>
-              <div>
+              <div className="title-content">
                 <b>Nome</b>
                 <p>{name}</p>
               </div>
-              <div>
+              <div className="title-content">
                 <b>Email</b>
                 <p>{email}</p>
               </div>
-              <div>
+              <div className="title-content">
                 <b>Descrição</b>
                 <p>{description}</p>
               </div>

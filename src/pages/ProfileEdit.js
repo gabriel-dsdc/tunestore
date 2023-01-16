@@ -45,13 +45,20 @@ class ProfileEdit extends React.Component {
             <form
               style={ { marginTop: '70px',
                 display: 'flex',
-                flexDirection: 'column' } }
+                flexDirection: 'column',
+                alignItems: 'flex-end' } }
             >
+              <img
+                className="profile-image"
+                src={ image || Avatar }
+                alt={ `${name} profile` }
+              />
               <label htmlFor="edit-input-image">
-                <img src={ image || Avatar } alt={ `${name} profile` } />
+                <b>Imagem de perfil:</b>
                 <input
                   data-testid="edit-input-image"
                   id="edit-input-image"
+                  className="edit-input"
                   type="text"
                   name="image"
                   value={ image }
@@ -63,6 +70,7 @@ class ProfileEdit extends React.Component {
                 <input
                   data-testid="edit-input-name"
                   id="edit-input-name"
+                  className="edit-input"
                   type="text"
                   name="name"
                   value={ name }
@@ -74,17 +82,19 @@ class ProfileEdit extends React.Component {
                 <input
                   data-testid="edit-input-email"
                   id="edit-input-email"
+                  className="edit-input"
                   type="text"
                   name="email"
                   value={ email }
                   onChange={ this.handleChange }
                 />
               </label>
-              <label htmlFor="edit-input-description">
-                <b>Descrição:</b>
-                <input
+              <label htmlFor="edit-input-description" style={ { display: 'flex' } }>
+                <b style={ { alignSelf: 'center' } }>Descrição:</b>
+                <textarea
                   data-testid="edit-input-description"
                   id="edit-input-description"
+                  className="edit-input-textarea"
                   type="text"
                   name="description"
                   value={ description }
